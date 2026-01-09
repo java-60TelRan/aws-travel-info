@@ -1,10 +1,10 @@
 
 import requests
-
+import os
 
 
 URL:str =  "http://localhost:11434/api/chat"
-MODEL_NAME: str = "phi3"
+MODEL_NAME: str = os.getenv("OLLAMA_MODEL_NAME", "phi3")
 def chatRequest(messages:dict)-> str:
     payload = {
         "model":MODEL_NAME,
