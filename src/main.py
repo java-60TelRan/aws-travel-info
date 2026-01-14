@@ -3,6 +3,7 @@ from fastapi.exceptions import RequestValidationError
 from pydantic import ValidationError
 
 from auth.authorization import authorization
+from auth.authentication import authentication
 from exceptions.handlers import registerExceptionHandlers
 from models.travel_request import TravelRequest
 from models.travel_response import TravelResponse
@@ -30,6 +31,7 @@ async def travelInfoGetHandler(countryFrom: str, countryTo: str | None = None,
 
 
 @app.post("/travel/info", response_model=TravelResponse)
-async def travelInfoPostHandler(travelRequest: TravelRequest):
+async def travelInfoPostHandler(travelRequest: TravelRequest, claims=Depends(authentication)):
     logger.debug("API POST endpoint travel/info: request: %s", travelRequest)
+    logger.debug(f"token in Authorization header has been verified with claims {claims}")
     return travel_info(travelRequest)
